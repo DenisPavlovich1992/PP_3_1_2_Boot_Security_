@@ -27,12 +27,23 @@
     </div>
 
     <div>
-        <label for="roles">Email:</label>
-        <input type="roles" id="roles" name="roles" required/>
-        <div th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}"></div>
+        <label class="role-select-container">
+            Добавление нескольких Roles через Ctrl:
+            <select name="roles" multiple>
+                <option value="ROLE_ADMIN">Admin</option>
+                <option value="ROLE_USER">User</option>
+            </select>
+        </label>
     </div>
 
     <button type="submit">Save User</button>
 </form>
+<br>
+<br>
+<div class="logout-button-wrapper">
+    <form th:action="@{/logout}" method="post" class="logout-form">
+        <button type="submit" onclick="return confirm('Are you sure you want to exit?')">Exit</button>
+    </form>
+</div>
 </body>
 </html>
