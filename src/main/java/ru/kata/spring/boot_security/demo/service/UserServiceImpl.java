@@ -1,14 +1,12 @@
 package ru.kata.spring.boot_security.demo.service;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.configs.WebSecurityConfig;
@@ -63,35 +61,23 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.findAll(Sort.by("id"));
     }
 
-
-
     @Transactional(readOnly = true)
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
-
         if (user == null) {
             throw new UsernameNotFoundException(username + " not found");
         }
-
         List<GrantedAuthority> authorities = user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
-
         return new org.springframework.security.core.userdetails.
                 User(user.getUsername(),user.getPassword(), authorities);
     }
+
     @Transactional(readOnly = true)
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public String getUserRoles(User user) {
-        return user.getRoles().stream()
-                .map(Role::getName)
-                .collect(Collectors.joining(", "));
     }
 
     @Transactional
@@ -102,7 +88,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             user.getRoles().add(role);
             userRepository.save(user);
         }
-
     }
 
     @Override

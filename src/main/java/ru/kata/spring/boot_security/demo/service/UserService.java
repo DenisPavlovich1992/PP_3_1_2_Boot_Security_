@@ -16,9 +16,6 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    String getUserRoles(User user);
-
-
     void addRoleToUser(String[] roleName, User user);
 
     void deleteRoleToUser(User user);
