@@ -19,15 +19,7 @@ public class RoleServiceImpl implements RoleService {
             return roleRepository.findByName(name);
         }
 
-    @Override
-    public void clearRole() {
-        roleRepository.deleteAll();
-    }
 
-    @Override
-    public void clearRoleById(Long id) {
-        roleRepository.deleteById(id);
-    }
 
 
 }
